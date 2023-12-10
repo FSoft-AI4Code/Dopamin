@@ -35,12 +35,17 @@ python training/autorun.py --output_dir ./models/Dopamin_post_training --post_tr
 ```python
 python training/autorun.py --output_dir ./models/Dopamin_valid --validation
 ```
-1. Training model with original training data with the found step
+2. Training model with original training data with the found step
 ```python
 python training/autorun.py --output_dir ./models/Dopamin --optimal_step_file ./models/Dopamin_valid
 ```
 
-# Evaluation
+## Evaluation
 To run the evaluation of Dopamin, please refer to the [evaluation notebook](https://github.com/FSoft-AI4Code/Dopamin/blob/main/Dopamin_evaluation.ipynb)
+or if you want to use the script:
+```python
+python training/predict.py --model_name codebert-hsum \
+                           --model_path ./models/Dopamin \
+```                      
 
 All model checkpoints are publicity available at Huggingface Hub - [Dopamin](https://huggingface.co/collections/Fsoft-AIC/dopamin-6575bdeb7068a850897e4404) for replication purposes.
