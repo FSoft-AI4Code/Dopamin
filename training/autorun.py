@@ -42,13 +42,19 @@ if max_step_src is not None:
 if not os.path.exists(output_dir):
     os.mkdir(output_dir)
 
+if args.post_training:
+    model_name_or_path = "microsoft/codebert-base"
+    model_short_name = "codebert"
+else:
+    model_name_or_path = "./code-comment-classification/stage1/Dopamin"
+    model_short_name = "codebert-hsum"
 
 run_command = """CUDA_VISIBLE_DEVICES=0,1 python3 training/run.py \
     --seed 0 \
-    --model_short_name codebert \
+    --model_short_name {} \
     --mix_type HSUM \
     --count 4 \
-    --model_name_or_path albert-base-v2 \
+    --model_name_or_path {} \
     --train_file {} \
     --validation_file {} \
     --test_file {} \
@@ -95,7 +101,10 @@ if not post_pretrained:
 
             if not os.path.exists(os.path.join(output_dir, category)):
                 print("Training")
-                os.system(run_command.format(os.path.join(LANGUAGE_SRC, lang, comt_type, "train.csv"),
+                os.system(run_command.format(
+                    model_short_name,
+                    model_name_or_path,
+                    os.path.join(LANGUAGE_SRC, lang, comt_type, "train.csv"),
                     os.path.join(LANGUAGE_SRC, lang, comt_type, valid_name),
                     os.path.join(LANGUAGE_SRC, lang, comt_type, "test.csv"),
                     output_dir,
@@ -115,13 +124,14 @@ if not post_pretrained:
                         else:
                             os.remove(os.path.join(output_dir, category, dirname))
 else:
-    os.system(run_command.format(os.path.join(LANGUAGE_SRC, "train.csv"),
+    os.system(run_command.format(
+            model_short_name,
+            model_name_or_path,
+            os.path.join(LANGUAGE_SRC, "train.csv"),
             os.path.join(LANGUAGE_SRC, "test.csv"),
             os.path.join(LANGUAGE_SRC, "test.csv"),
             output_dir,
-            10,
-            -1,
-            -1
+            10, -1, -1
             ))
 
 if max_step_src is not None:
