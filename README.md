@@ -2,7 +2,7 @@
 This repository includes our implementation for training, testing, and utilizing Dopamin, which is our submission for [NLBSE'24 Tool Competition: Code Comment Classification](https://nlbse2024.github.io/tools/).
 
 # Quickstart Guide
-## Preparation
+## Set up
 Install requirements: ```pip install -r requirements.txt```
 Download dataset: ```git clone https://github.com/nlbse2024/code-comment-classification.git```
 
@@ -20,6 +20,24 @@ python process_data.py --save_dir ./code-comment-classification/processed_data/v
 Original_data: 
 ```
 python process_data.py --save_dir ./code-comment-classification/processed_data/novalid
+```
+
+## Training
+All training and evaluation scripts can be found in [training Dopamin](https://github.com/FSoft-AI4Code/Dopamin/tree/main/training)
+
+### Post-training stage
+```python
+python training/autorun.py --output_dir ./models/Dopamin_post_training --post_training
+```
+
+### Training Dopamin for each category
+1. Training model with validation set to obtain the best checkpoint step
+```python
+python training/autorun.py --output_dir ./models/Dopamin_valid --validation
+```
+1. Training model with original training data with the found step
+```python
+python training/autorun.py --output_dir ./models/Dopamin --optimal_step_file ./models/Dopamin_valid
 ```
 
 # Evaluation
