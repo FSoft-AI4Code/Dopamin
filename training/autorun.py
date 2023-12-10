@@ -1,6 +1,14 @@
 import os
 import json
 import shutil
+parser = argparse.ArgumentParser()
+parser.add_argument('--output_dir', default="./code-comment-classification/stage1/Dopamin")
+parser.add_argument('--optimal_step_file', default=None)
+parser.add_argument('--post_training', action="store_true")
+parser.add_argument('--validation', action="store_true")
+
+args = parser.parse_args()
+
 
 def get_max_step(filepath, extra_steps= 100):
     output = {}
@@ -18,11 +26,16 @@ language_type ={
 }
 
 
-post_pretrained = False
-LANGUAGE_SRC = "/cm/archive/namlh35/code-comment-classification/processed_data/valid/"
-output_dir = "/cm/archive/namlh35/code-comment-classification/results/selection_with_valid/albert-datav2-class-comment"
-max_step_src = "/cm/archive/namlh35/code-comment-classification/results/selection_with_valid/roberta-postpretrained-datav2-class-comment"
-max_step_src = None
+LANGUAGE_SRC = "./code-comment-classification/processed_data/valid/"
+if args.post_training:
+    LANGUAGE_SRC += "all"
+elif args.validation:
+    LANGUAGE_SRC += "valid"
+else:
+    LANGUAGE_SRC += "novalid"
+    
+output_dir = args.output_dir
+max_step_src = args.optimal_step_file
 if max_step_src is not None:
     max_step_dict = get_max_step(max_step_src)
 
@@ -32,7 +45,7 @@ if not os.path.exists(output_dir):
 
 run_command = """CUDA_VISIBLE_DEVICES=0,1 python3 training/run.py \
     --seed 0 \
-    --model_short_name albert \
+    --model_short_name codebert \
     --mix_type HSUM \
     --count 4 \
     --model_name_or_path albert-base-v2 \
@@ -73,7 +86,7 @@ if not post_pretrained:
             else:
                 optimal_step = -1
             
-            if "novalid" in LANGUAGE_SRC:
+            if not args.validation:
                 valid_name = "train.csv"
                 save_total_limit = -1
             else:
