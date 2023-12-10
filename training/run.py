@@ -24,7 +24,7 @@ from transformers import (
     default_data_collator,
     set_seed,
 )
-from custom_model import CodeBERTForSequenceClassification, CodeBERTHSUMForSequenceClassification, CodeBERTMixFeaturesForSequenceClassification
+from custom_model import CodeBERTForSequenceClassification, CodeBERTHSUMForSequenceClassification
 from transformers.trainer_utils import get_last_checkpoint
 from transformers.utils import check_min_version, send_example_telemetry
 from transformers.utils.versions import require_version
@@ -278,8 +278,6 @@ def get_label_list(raw_dataset, split="train") -> List[str]:
 def get_model_class(model_name):
     if "hsum" in model_name:
         return CodeBERTHSUMForSequenceClassification
-    elif "mix-feature" in model_name:
-        return CodeBERTMixFeaturesForSequenceClassification
     elif "custom" in model_name:
         return CodeBERTForSequenceClassification
     else:
