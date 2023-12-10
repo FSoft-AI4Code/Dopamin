@@ -4,6 +4,7 @@ This repository includes our implementation for training, testing, and utilizing
 # Quickstart Guide
 ## Set up
 Install requirements: ```pip install -r requirements.txt```
+
 Download dataset: ```git clone https://github.com/nlbse2024/code-comment-classification.git```
 
 ## Data preparation
