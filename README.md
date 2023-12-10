@@ -4,3 +4,7 @@ This repository includes our implementation for training, testing, and utilizing
 # Quickstart Guide
 Install requirements: ```pip install -r requirements.txt```
 
+# Evaluation
+To run the evaluation of Dopamin, please refer to the [evaluation notebook](https://github.com/FSoft-AI4Code/Dopamin/blob/main/Dopamin_evaluation.ipynb)
+
+All model checkpoints are publicity available at [Dopamin](https://huggingface.co/collections/Fsoft-AIC/dopamin-6575bdeb7068a850897e4404) for replication purpose.
