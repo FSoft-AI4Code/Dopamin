@@ -49,7 +49,7 @@ python training/predict.py --model_name codebert-hsum \
                            --model_path ./models/Dopamin \
 ```                      
 
-All model checkpoints are publicity available at Huggingface Hub - [Dopamin](https://huggingface.co/collections/Fsoft-AIC/dopamin-6575bdeb7068a850897e4404) for replication purposes.
+All model checkpoints are publicity available at [Huggingface Hub - Dopamin](https://huggingface.co/collections/Fsoft-AIC/dopamin-6575bdeb7068a850897e4404) for replication purposes.
 
 # Citation
 ```bibtex
