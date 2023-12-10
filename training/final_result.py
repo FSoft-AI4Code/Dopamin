@@ -1,6 +1,6 @@
 from transformers import AutoTokenizer, AutoModelForSequenceClassification
 import torch
-from custom_model import CodeBERTHSUMForSequenceClassification, CodeBERTForSequenceClassification, CodeBERTMixFeaturesForSequenceClassification
+from custom_model import CodeBERTHSUMForSequenceClassification, CodeBERTForSequenceClassification
 import json, os
 import pandas as pd
 import time
@@ -10,12 +10,20 @@ from datasets import load_dataset, get_dataset_split_names
 from sklearn.metrics import f1_score, confusion_matrix
 import numpy as np
 from setfit import SetFitModel
+import argparse
+
+parser = argparse.ArgumentParser()
+parser.add_argument('--output_dir', default="./code-comment-classification/stage1/Dopamin")
+parser.add_argument('--model_name', default="codebert-hsum")
+parser.add_argument('--model_path', default="./models/Dopamin")
+parser.add_argument('--test_src', default=None)
+
+args = parser.parse_args()
+
 
 def get_model_class(model_name):
     if "hsum" in model_name:
         return CodeBERTHSUMForSequenceClassification
-    elif "mix-feature" in model_name:
-        return CodeBERTMixFeaturesForSequenceClassification
     elif "-custom" in model_name:
         return CodeBERTForSequenceClassification
     else:
@@ -27,9 +35,9 @@ def get_precision_recall_f1(tp: float, fp: float, fn: float) -> Tuple[float, flo
     f1 = 2 * (precision * recall / (precision + recall))
     return precision, recall, f1
 
-model_name = "STACC"
-model_src = "/cm/archive/namlh35/code-comment-classification/results/selection_wo_valid/Verification/codebert-postpretrained-hsum-4layers-datav2-class-comment"
-test_src= "/cm/archive/namlh35/code-comment-classification/processed_data/valid"
+model_name = args.model_name
+model_src = args.model_path
+test_src= args.test_src
 # test_src = None
 if not test_src:
     with open(os.path.join(model_src, "optimal_step.json")) as f:
@@ -39,14 +47,14 @@ langs = ['java', 'python', 'pharo']
 lan_cats = []
 datasets = {}
 for lan in langs: # for each language
-    if test_src is not None:
+    if test_src is not None: # for evaluation on validation set
         concat_df = []
         for cate in os.listdir(os.path.join(test_src, lan)):
             concat_df.append(pd.read_csv(os.path.join(test_src, lan, cate, "valid.csv")))
         df = pd.concat(concat_df)
-    else:
+    else: # for evaluation on test set
         df = pd.read_csv(f'./{lan}/input/{lan}.csv')
-    df['combo'] = df[['class', 'comment_sentence']].agg(' | '.join, axis=1)
+    df['combo'] = df[['class', 'comment_sentence']].agg('</s>'.join, axis=1)
     df['label'] = df.instance_type
     df["combo_len"] = [len(x.split()) for x in df["combo"]]
     cats = list(map(lambda x: lan + '_' + x, list(set(df.category))))
@@ -82,12 +90,8 @@ for lan_cat in lan_cats:
         tokenizer = AutoTokenizer.from_pretrained(os.path.join(model_src,lan_cat,"checkpoint-{}".format(optimal_step_metric[lan_cat])))
         model = get_model_class(model_name).from_pretrained(os.path.join(model_src,lan_cat,"checkpoint-{}".format(optimal_step_metric[lan_cat])))
     else:
-        if model_name == "STACC":
-            name = lan_cat.lower().replace('_','-').replace('java', 'extended-java') + '-classifier'
-            model = SetFitModel.from_pretrained(f"AISE-TUDelft/{name}")
-        else:
-            tokenizer = AutoTokenizer.from_pretrained(os.path.join(model_src,lan_cat))
-            model = get_model_class(model_name).from_pretrained(os.path.join(model_src,lan_cat)) 
+        tokenizer = AutoTokenizer.from_pretrained(os.path.join(model_src,lan_cat))
+        model = get_model_class(model_name).from_pretrained(os.path.join(model_src,lan_cat)) 
     # model.cuda()
     # model.eval()
     test_data = datasets[lan_cat]['test_data']
@@ -101,13 +105,8 @@ for lan_cat in lan_cats:
         ############# TIME BLOCK #####################
         num_iter = np.ceil(len(x) / batch_size)
         start = time.time()
-        if model_name == "STACC":
-            y_hat = model(test_data['combo'])
-        else:
-            y_hat = get_prediction(x, model, tokenizer, num_iter)
+        y_hat = get_prediction(x, model, tokenizer, num_iter)
         elapsed_time = time.time() - start
-        # print(elapsed_time)
-        # print(num_iter)
 
         time_per_sample = elapsed_time / len(y)
 
@@ -131,4 +130,4 @@ df = df[['lan_cat', 'precision','recall', 'f1', 'avg_runtime']]
 df2 = {'lan_cat': "Average",'precision': round(df['precision'].mean(),4),'recall': round(df['recall'].mean(),4),'f1': round(df['f1'].mean(), 4), 'avg_runtime': round(df['avg_runtime'].mean(), 5)}
 df = pd.concat([df, pd.DataFrame([df2])], ignore_index=True)
 print(df)
-# df.to_csv(os.path.join(model_src, "results.csv"), index=False)
+df.to_csv(os.path.join(model_src, "results.csv"), index=False)
