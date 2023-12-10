@@ -8,7 +8,9 @@ Download dataset: ```git clone https://github.com/nlbse2024/code-comment-classif
 
 ## Data process
 Create data for the post-training stage: ```python process_data.py --save_dir ./code-comment-classification/processed_data/all --post_training```
+
 Create training and evaluation set: ```python process_data.py --save_dir ./code-comment-classification/processed_data/valid --validation```
+
 Original_data: ```python process_data.py --save_dir ./code-comment-classification/processed_data/novalid```
 
 # Evaluation
