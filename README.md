@@ -58,6 +58,7 @@ All model checkpoints are publicity available at Huggingface Hub - [Dopamin](htt
   author = {Hai, Nam Le and Bui, Nghi DQ},
   year = {2024},
   title = {Dopamin: Transformer-based Comment Classifiers through Domain Post-training and Multi-level layer aggregation},
-  url = {https://github.com/FSoft-AI4Code/Dopamin}
+  url = {https://github.com/FSoft-AI4Code/Dopamin},
+  huggingface= {https://huggingface.co/collections/Fsoft-AIC/dopamin-6575bdeb7068a850897e4404}
 }
 ```
