@@ -1,6 +1,8 @@
 import os
 import json
 import shutil
+import argparse
+
 parser = argparse.ArgumentParser()
 parser.add_argument('--output_dir', default="./code-comment-classification/stage1/Dopamin")
 parser.add_argument('--optimal_step_file', default=None)
