@@ -2,5 +2,5 @@
 This repository includes our implementation for training, testing, and utilizing Dopamin, which is our submission for [NLBSE'24 Tool Competition: Code Comment Classification](https://nlbse2024.github.io/tools/).
 
 # Quickstart Guide
-Install requirements: ```pip install -r requirements.txt'''
+Install requirements: ```pip install -r requirements.txt```
 
