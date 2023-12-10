@@ -26,7 +26,7 @@ language_type ={
 }
 
 
-LANGUAGE_SRC = "./code-comment-classification/processed_data/valid/"
+LANGUAGE_SRC = "./code-comment-classification/processed_data/"
 if args.post_training:
     LANGUAGE_SRC += "all"
 elif args.validation:
@@ -46,7 +46,7 @@ if args.post_training:
     model_name_or_path = "microsoft/codebert-base"
     model_short_name = "codebert"
 else:
-    model_name_or_path = "./code-comment-classification/stage1/Dopamin"
+    model_name_or_path = "./models/Dopamin_post_training"
     model_short_name = "codebert-hsum"
 
 run_command = """CUDA_VISIBLE_DEVICES=0,1 python3 training/run.py \
