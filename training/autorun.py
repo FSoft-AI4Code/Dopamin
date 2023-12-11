@@ -42,7 +42,7 @@ if max_step_src is not None:
     max_step_dict = get_max_step(max_step_src)
 
 if not os.path.exists(output_dir):
-    os.mkdir(output_dir)
+    os.makedirs(output_dir)
 
 if args.post_training:
     model_short_name = "codebert"
@@ -84,7 +84,7 @@ run_command = """CUDA_VISIBLE_DEVICES=0,1 python3 training/run.py \
     --overwrite_output_dir
 """
 
-if not post_pretrained:
+if not args.post_training:
     for lang in os.listdir(LANGUAGE_SRC):
         if lang == "java":
             num_epoch = 10
