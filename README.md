@@ -3,6 +3,12 @@ This repository includes our implementation for training, testing, and utilizing
 
 # Quickstart Guide
 ## Set up
+Clone Dopamin repo:
+```
+git clone https://github.com/FSoft-AI4Code/Dopamin.git
+cd Dopamin
+```
+
 Install requirements: ```pip install -r requirements.txt```
 
 Download dataset: ```git clone https://github.com/nlbse2024/code-comment-classification.git```
