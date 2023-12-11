@@ -52,7 +52,7 @@ for lan in langs: # for each language
             concat_df.append(pd.read_csv(os.path.join(test_src, lan, cate, "valid.csv")))
         df = pd.concat(concat_df)
     else: # for evaluation on test set
-        df = pd.read_csv(f'./{lan}/input/{lan}.csv')
+        df = pd.read_csv(f'./code-comment-classification/{lan}/input/{lan}.csv')
     df['combo'] = df[['class', 'comment_sentence']].agg('</s>'.join, axis=1)
     df['label'] = df.instance_type
     df["combo_len"] = [len(x.split()) for x in df["combo"]]
@@ -84,7 +84,6 @@ for lan_cat in lan_cats:
     # if lan_cat not in ["java_deprecation", "pharo_classreferences", "python_parameters"]:
     #   continue
     # load models and data
-    print(lan_cat)
     if not test_src:
         tokenizer = AutoTokenizer.from_pretrained(os.path.join(model_src,lan_cat,"checkpoint-{}".format(optimal_step_metric[lan_cat])))
         model = get_model_class(model_name).from_pretrained(os.path.join(model_src,lan_cat,"checkpoint-{}".format(optimal_step_metric[lan_cat])))
@@ -100,7 +99,7 @@ for lan_cat in lan_cats:
 
     # # run and time 10 times for each cat
     with torch.no_grad():
-      for it in range(1):
+      for it in range(10):
         ############# TIME BLOCK #####################
         num_iter = np.ceil(len(x) / batch_size)
         start = time.time()
