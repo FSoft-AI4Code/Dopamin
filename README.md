@@ -13,6 +13,8 @@ Install requirements: ```pip install -r requirements.txt```
 
 Download dataset: ```git clone https://github.com/nlbse2024/code-comment-classification.git```
 
+**Note:** We employ 2 NVIDIA A100 GPUs for training the model, configuring a batch size of 32 per GPU. Consequently, replication may not be feasible when utilizing a single GPU with a batch size of 64.
+
 ## Data preparation
 Create data for the post-training stage: 
 ```python
