@@ -5,6 +5,7 @@ import argparse
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--output_dir', default="./code-comment-classification/stage1/Dopamin")
+parser.add_argument('--batch_size', type=int, default=32)
 parser.add_argument('--optimal_step_file', default=None)
 parser.add_argument('--post_training', action="store_true")
 parser.add_argument('--validation', action="store_true")
@@ -70,7 +71,7 @@ run_command = """CUDA_VISIBLE_DEVICES=0,1 python3 training/run.py \
     --metric_name f1 \
     --text_column_delimiter "</s>" \
     --max_seq_length 64 \
-    --per_device_train_batch_size 32 \
+    --per_device_train_batch_size {} \
     --learning_rate 1e-5 \
     --num_train_epochs {} \
     --max_steps {} \
@@ -113,6 +114,7 @@ if not args.post_training:
                     os.path.join(LANGUAGE_SRC, lang, comt_type, valid_name),
                     os.path.join(LANGUAGE_SRC, lang, comt_type, "test.csv"),
                     output_dir,
+                    args.batch_size,
                     num_epoch,
                     -1,
                     save_total_limit
@@ -136,6 +138,7 @@ else:
             os.path.join(LANGUAGE_SRC, "test.csv"),
             os.path.join(LANGUAGE_SRC, "test.csv"),
             output_dir,
+            args.batch_size,
             10, -1, -1
             ))
 
