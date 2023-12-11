@@ -9,7 +9,6 @@ from typing import *
 from datasets import load_dataset, get_dataset_split_names
 from sklearn.metrics import f1_score, confusion_matrix
 import numpy as np
-from setfit import SetFitModel
 import argparse
 
 parser = argparse.ArgumentParser()
