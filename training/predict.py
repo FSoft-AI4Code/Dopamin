@@ -81,9 +81,6 @@ scores = []
 batch_size = 64
 
 for lan_cat in lan_cats:
-    # if lan_cat not in ["java_deprecation", "pharo_classreferences", "python_parameters"]:
-    #   continue
-    # load models and data
     if not test_src:
         tokenizer = AutoTokenizer.from_pretrained(os.path.join(model_src,lan_cat,"checkpoint-{}".format(optimal_step_metric[lan_cat])))
         model = get_model_class(model_name).from_pretrained(os.path.join(model_src,lan_cat,"checkpoint-{}".format(optimal_step_metric[lan_cat])))
@@ -100,15 +97,14 @@ for lan_cat in lan_cats:
     # # run and time 10 times for each cat
     with torch.no_grad():
       for it in range(10):
-        ############# TIME BLOCK #####################
+        ################# TIME BLOCK #####################
         num_iter = np.ceil(len(x) / batch_size)
         start = time.time()
         y_hat = get_prediction(x, model, tokenizer, num_iter)
         elapsed_time = time.time() - start
 
         time_per_sample = elapsed_time / len(y)
-
-        # # ############# TIME BLOCK #####################
+        ################### TIME BLOCK ###################
         _, fp, fn, tp = confusion_matrix(y_hat, y).ravel()
         wf1 = f1_score(y, y_hat, average='weighted')
         precision, recall, f1 = get_precision_recall_f1(tp, fp, fn)
