@@ -45,11 +45,14 @@ if not os.path.exists(output_dir):
     os.mkdir(output_dir)
 
 if args.post_training:
-    model_name_or_path = "microsoft/codebert-base"
     model_short_name = "codebert"
+    model_name_or_path = "microsoft/codebert-base"
 else:
-    model_name_or_path = "./models/Dopamin_post_training"
     model_short_name = "codebert-hsum"
+    model_name_or_path = "./models/Dopamin_post_training"
+    # in case you want to use the trained model
+    if not os.path.exists(model_name_or_path):
+        model_name_or_path = "Fsoft-AIC/dopamin-post-training"
 
 run_command = """CUDA_VISIBLE_DEVICES=0,1 python3 training/run.py \
     --seed 0 \
