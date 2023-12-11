@@ -30,6 +30,7 @@ All training and evaluation scripts can be found in [training Dopamin](https://g
 ```python
 python training/autorun.py --output_dir ./models/Dopamin_post_training --post_training
 ```
+You can download the post-trained model at https://huggingface.co/Fsoft-AIC/dopamin-post-training
 
 ### Training Dopamin for each category
 1. Training model with validation set to obtain the best checkpoint step
