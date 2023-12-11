@@ -91,8 +91,8 @@ for lan_cat in lan_cats:
     else:
         tokenizer = AutoTokenizer.from_pretrained(os.path.join(model_src,lan_cat))
         model = get_model_class(model_name).from_pretrained(os.path.join(model_src,lan_cat)) 
-    # model.cuda()
-    # model.eval()
+    model.cuda()
+    model.eval()
     test_data = datasets[lan_cat]['test_data']
     x = test_data["combo"]
     y = test_data['label']
