@@ -65,27 +65,29 @@ run_command = """CUDA_VISIBLE_DEVICES=0,1 python3 training/run.py \
     --validation_file {} \
     --test_file {} \
     --output_dir {} \
-    --text_column_names class,comment_sentence \
+    --text_column_names {},comment_sentence \
     --label_column_name instance_type \
     --metric_for_best_model f1 \
     --metric_name f1 \
     --text_column_delimiter "</s>" \
     --max_seq_length 64 \
     --per_device_train_batch_size {} \
-    --learning_rate 1e-5 \
+    --learning_rate {} \
     --num_train_epochs {} \
     --max_steps {} \
     --do_train \
     --do_predict \
     --load_best_model_at_end \
     --evaluation_strategy steps \
-    --eval_steps 50 \
-    --save_steps 50 \
+    --eval_steps {} \
+    --save_steps {} \
     --save_total_limit {} \
     --overwrite_output_dir
 """
 
 if not args.post_training:
+    lr = 1e-5
+    eval_steps=50
     for lang in os.listdir(LANGUAGE_SRC):
         if lang == "java":
             num_epoch = 10
@@ -113,10 +115,12 @@ if not args.post_training:
                     os.path.join(LANGUAGE_SRC, lang, comt_type, "train.csv"),
                     os.path.join(LANGUAGE_SRC, lang, comt_type, valid_name),
                     os.path.join(LANGUAGE_SRC, lang, comt_type, "test.csv"),
-                    output_dir,
+                    output_dir, "class",
                     args.batch_size,
+                    lr,
                     num_epoch,
                     -1,
+                    eval_steps, eval_steps,
                     save_total_limit
                 ))
             #Remove unwanted checkpoints
@@ -131,15 +135,22 @@ if not args.post_training:
                         else:
                             os.remove(os.path.join(output_dir, category, dirname))
 else:
+    lr=2e-5
+    eval_steps=500
+    num_epoch=10
     os.system(run_command.format(
             model_short_name,
             model_name_or_path,
             os.path.join(LANGUAGE_SRC, "train.csv"),
             os.path.join(LANGUAGE_SRC, "test.csv"),
             os.path.join(LANGUAGE_SRC, "test.csv"),
-            output_dir,
+            output_dir, "category",
             args.batch_size,
-            10, -1, -1
+            lr,
+            num_epoch, 
+            -1, 
+            eval_steps, eval_steps,
+            -1
             ))
 
 if max_step_src is not None:
