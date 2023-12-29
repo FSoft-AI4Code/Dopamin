@@ -102,7 +102,7 @@ if not args.post_training:
             
             if not args.validation:
                 valid_name = "train.csv"
-                save_total_limit = -1
+                save_total_limit = 5
             else:
                 valid_name = "valid.csv"
                 save_total_limit = 1
@@ -150,7 +150,7 @@ else:
             num_epoch, 
             -1, 
             eval_steps, eval_steps,
-            -1
+            5
             ))
 
 if max_step_src is not None:
