@@ -554,23 +554,6 @@ def main():
             result["weighted_loss"] = [weighted_loss + [0]* (max_seq_length - len(weighted_loss))]*len(result["label"])
         return result
     
-    if model_args.model_short_name in ["codebert-comment-att"]:
-        def preprocess_function(examples):
-            text_column_names = data_args.text_column_names.split(",")
-            # join together text columns into "sentence" column
-            result = {"comment_input_ids": [], "comment_attention_mask": [], "code_input_ids": [], "code_attention_mask": [],}
-            
-            tokenized_comment = tokenizer(examples[text_column_names[0]], padding=padding, max_length=max_seq_length, truncation=True)
-            result["comment_input_ids"] = tokenized_comment["input_ids"]
-            result["comment_attention_mask"] = tokenized_comment["attention_mask"]
-
-            tokenized_code = tokenizer(examples[text_column_names[1]], padding=padding, max_length=max_seq_length, truncation=True)
-            result["code_input_ids"] = tokenized_code["input_ids"]
-            result["code_attention_mask"] = tokenized_code["attention_mask"]          
-
-            if label_to_id is not None and "label" in examples:
-                result["label"] = [(label_to_id[str(l)] if l != -1 else -1) for l in examples["label"]]
-            return result
     
     # Running the preprocessing pipeline on all the datasets
     with training_args.main_process_first(desc="dataset map pre-processing"):
