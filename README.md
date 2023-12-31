@@ -47,7 +47,7 @@ python training/autorun.py --output_dir ./models/Dopamin_valid --validation
 ```
 2. Training model with original training data with the found optimal step
 ```python
-python training/autorun.py --output_dir ./models/Dopamin --optimal_step_file ./models/Dopamin_valid
+python training/autorun.py --output_dir ./models/Dopamin --optimal_step_dir ./models/Dopamin_valid
 ```
 
 ## Evaluation

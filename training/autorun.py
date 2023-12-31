@@ -6,7 +6,7 @@ import argparse
 parser = argparse.ArgumentParser()
 parser.add_argument('--output_dir', default="./code-comment-classification/stage1/Dopamin")
 parser.add_argument('--batch_size', type=int, default=32)
-parser.add_argument('--optimal_step_file', default=None)
+parser.add_argument('--optimal_step_dir', default=None)
 parser.add_argument('--post_training', action="store_true")
 parser.add_argument('--validation', action="store_true")
 
@@ -38,7 +38,7 @@ else:
     LANGUAGE_SRC += "novalid"
     
 output_dir = args.output_dir
-max_step_src = args.optimal_step_file
+max_step_src = args.optimal_step_dir
 if max_step_src is not None:
     max_step_dict = get_max_step(max_step_src)
 
