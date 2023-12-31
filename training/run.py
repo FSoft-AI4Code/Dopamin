@@ -348,7 +348,7 @@ def main():
 
     # Set seed before initializing model.
     set_seed(training_args.seed)
-    
+
     # output_parent_dir = training_args.output_dir
     # training_args.output_dir = os.path.join(output_parent_dir, "_".join(data_args.train_file.split("/")[-3:-1]))
 
@@ -688,16 +688,6 @@ def main():
                     writer.write(f"{index}\t{item}\n")
         logger.info("Predict results saved at {}".format(output_predict_file))
         
-        # _, fp, fn, tp = confusion_matrix(predictions, labels).ravel()
-        # wf1 = f1_score(labels, predictions, average='weighted')
-        # precision, recall, f1 = get_precision_recall_f1(tp, fp, fn)
-        # score_summary = {"precision": precision,
-        #                 "recall": recall,
-        #                 "f1": f1,
-        #                 "wf1": wf1
-        #                 }
-        # with open(os.path.join(training_args.output_dir, "predict_score.json"), "w") as f:
-        #     json.dump(score_summary, f, indent=4)
     print("FINISHED!!!")
 
 
