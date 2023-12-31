@@ -13,7 +13,7 @@ Python >= 3.8
 
 Install requirements: ```pip install -r requirements.txt```
 
-**Note:** We employ 2 NVIDIA A100 GPUs for training the model, configuring a batch size of 32 per GPU. Consequently, replication may not be feasible when utilizing a single GPU with a batch size of 64.
+**Note:** We employ 2 NVIDIA A100 GPUs for training the model, configuring a batch size of 32 per GPU, thus the total batchsize is 64. However, replication may not be feasible when utilizing a single GPU with a batch size of 64.
 
 ## Data preparation
 Create data for the post-training stage: 
