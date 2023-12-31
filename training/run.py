@@ -348,19 +348,9 @@ def main():
 
     # Set seed before initializing model.
     set_seed(training_args.seed)
-
-    # Get the datasets: you can either provide your own CSV/JSON training and evaluation files, or specify a dataset name
-    # to load from huggingface/datasets. In ether case, you can specify a the key of the column(s) containing the text and
-    # the key of the column containing the label. If multiple columns are specified for the text, they will be joined togather
-    # for the actual text value.
-    # In distributed training, the load_dataset function guarantee that only one local process can concurrently
-    # download the dataset.
-
-    # training_files = [os.path.join(data_args.train_file, filename) for filename in os.listdir(data_args.train_file)]
-    output_parent_dir = training_args.output_dir
-
-
-    training_args.output_dir = os.path.join(output_parent_dir, "_".join(data_args.train_file.split("/")[-3:-1]))
+    
+    # output_parent_dir = training_args.output_dir
+    # training_args.output_dir = os.path.join(output_parent_dir, "_".join(data_args.train_file.split("/")[-3:-1]))
 
     train_files = [data_args.train_file]
     if data_args.extra_file:

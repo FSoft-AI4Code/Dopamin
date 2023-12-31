@@ -93,6 +93,7 @@ if not args.post_training:
             num_epoch = 10
         else:
             num_epoch = 20
+
         for comt_type in language_type[lang]:
             category = lang + "_" + comt_type
             if max_step_src is not None:
@@ -123,11 +124,12 @@ if not args.post_training:
                     eval_steps, eval_steps,
                     save_total_limit
                 ))
-            #Remove unwanted checkpoints
+            
             if max_step_src is not None:
                 all_ckpt = [int(x.split("-")[-1]) for x in os.listdir(os.path.join(output_dir, category)) if x.startswith("checkpoint")]
                 optimal_ckpt = max(all_ckpt) if max(all_ckpt) < optimal_step else optimal_step # sometime due to extra_steps => optimal_step > max_step
                 max_step_dict[category] = optimal_ckpt
+                #Remove unwanted checkpoints
                 for dirname in os.listdir(os.path.join(output_dir, category)):
                     if dirname != f"checkpoint-{optimal_ckpt}":
                         if os.path.isdir(os.path.join(output_dir, category, dirname)):
