@@ -9,7 +9,7 @@ git clone https://github.com/FSoft-AI4Code/Dopamin.git
 cd Dopamin
 ```
 
-Python >= 3.0
+Python >= 3.8
 
 Install requirements: ```pip install -r requirements.txt```
 
