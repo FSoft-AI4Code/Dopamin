@@ -1,0 +1,3 @@
+[submodule "code-comment-classification"]
+	path = code-comment-classification
+	url = https://github.com/nlbse2024/code-comment-classification.git

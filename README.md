@@ -9,9 +9,9 @@ git clone https://github.com/FSoft-AI4Code/Dopamin.git
 cd Dopamin
 ```
 
-Install requirements: ```pip install -r requirements.txt```
+Python >= 3.0
 
-Download dataset: ```git clone https://github.com/nlbse2024/code-comment-classification.git```
+Install requirements: ```pip install -r requirements.txt```
 
 **Note:** We employ 2 NVIDIA A100 GPUs for training the model, configuring a batch size of 32 per GPU. Consequently, replication may not be feasible when utilizing a single GPU with a batch size of 64.
 
